@@ -1,0 +1,19 @@
+.mat-card
+{
+   
+    padding:20px;
+    box-sizing: border-box;
+    
+    background-color: #c8d11f;
+    background-image: linear-gradient(315deg, #fde7f9 0%, #aacaef 74%);
+    
+    width: auto;
+    Height: auto;
+    font-size: 20px
+}
+.main
+{
+    background-color: #c7d013;
+    background-image: linear-gradient(315deg, #fde7f9 0%, #aacaef 74%);
+    
+}

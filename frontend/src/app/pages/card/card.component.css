@@ -1,0 +1,16 @@
+.fa-heart {
+    color :rgb(188, 8, 68);
+    cursor : pointer;
+}
+.mat-card
+{
+   
+    background: linear-gradient(to right, #a6c209, #aaccec);
+    
+
+    box-sizing: border-box;
+    width: auto;
+    padding: 50px;
+    
+
+}

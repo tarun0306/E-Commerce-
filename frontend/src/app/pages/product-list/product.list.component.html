@@ -1,0 +1,224 @@
+<h1
+  align="center"
+  style="
+    background-color: #f6f0c4;
+    background-image: linear-gradient(815deg, #f6f0c4 0%, #dbaace 74%);
+    font-weight: bold;
+    font: size 28px px;
+    padding: 10px;
+  "
+  class="display-4"
+>
+  Add Products
+</h1>
+<br /><br /><br />
+<form
+  action="/"
+  method="post"
+  enctype="multipart/form-data"
+  style="
+    padding: 10px;
+    width: 60%;
+    height: 30px;
+    border-radius: 5px;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+  "
+>
+  <button>
+    <input
+      class="form-control"
+      type="file"
+      (change)="onChange($event)"
+      style="
+        margin-top: 1rem;
+        font-weight: bold;
+        color: dodgerblue;
+        background-color: #09203f;
+        padding: 40px;
+        width: fit-content;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        font-size: 15px;
+      "
+    />
+  </button>
+</form>
+<br /><br /><br /><br /><br /><br />
+<button
+  (click)="onUpload()"
+  class="btn btn-primary btn-lg"
+  style="
+    margin: 13px;
+    padding: 13px;
+    width: fit-content;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 15px;
+  "
+>
+  Upload
+</button>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Stocks Table</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <link rel="stylesheet" href="assets/products/css/style.css" />
+  </head>
+  <body>
+    <br /><br />
+    <section class="ftco-section" style="padding-top: 10px">
+      <div class="container">
+        <div class="row justify-content-center">
+          <h2 class="heading-section" style="font-weight: bold">
+            Stocks Table
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-wrap">
+            <button (click)="exportAsXLSX()" class="float-right mb-3">
+              Download
+              <i
+                class=""
+                aria-hidden="true"
+                style="font-size: 10px; color: black"
+              ></i>
+            </button>
+            <table
+              class="table"
+              style="
+                font-weight: bold;
+                background-color: #f6f0c4;
+                background-image: linear-gradient(
+                  815deg,
+                  #f6f0c4 0%,
+                  #dbaace 74%
+                );
+              "
+            >
+              <thead
+                class="thead-primary"
+                style="
+                  background-color: #537895;
+                  background-image: linear-gradient(
+                    315deg,
+                    #537895 0%,
+                    #09203f 74%
+                  );
+                "
+              >
+                <tr>
+                  <th>Photo</th>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <!-- <th>Type</th> -->
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                  <th>Mail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let productInfo of page?.content | filter: searchText"
+                >
+                  <th scope="row">
+                    <img
+                      height="100px"
+                      src="{{ productInfo.productIcon }}"
+                      alt="{{ productInfo.productName }}"
+                    />
+                  </th>
+                  <td>{{ productInfo.productId }}</td>
+                  <td>{{ productInfo.productName }}</td>
+                  <!-- <td>{{CategoryType[productInfo.categoryType]}}</td> -->
+
+                  <td>{{ productInfo.productDescription }}</td>
+                  <td>{{ productInfo.productPrice | currency }}</td>
+                  <td>{{ productInfo.productStock }}</td>
+                  <td>{{ ProductStatus[productInfo.productStatus] }}</td>
+                  <td>
+                    <a
+                      style="display: block"
+                      routerLink="/seller/product/{{
+                        productInfo.productId
+                      }}/edit"
+                    >
+                      Edit</a
+                    >
+                    <a
+                      *ngIf="currentUser?.role == Role.Customer"
+                      style="display: block"
+                      (click)="remove(page.content, productInfo.productId)"
+                      routerLink="./"
+                    >
+                      Remove</a
+                    >
+                  </td>
+                  <td>
+                    <button
+                      (click)="onSubmit()"
+                      [disabled]="productInfo.productStock > 10 ? true : false"
+                      class="btn btn-success"
+                    >
+                      email
+                    </button>
+                  </td>
+                  <!-- <td><a *ngIf="currentUser?.role == Role.Customer" style="color: inherit"
+                    routerLink="/seller/product/new" class="float-right mb-3"><i class="fas fa-plus fa-2x">Add</i>
+                 </a>
+                 <button (click)="exportAsXLSX()" class="float-right mb-3"> Download
+                     <i class="" aria-hidden="true" style="font-size:10px;color:black"></i></button></td> -->
+                </tr>
+              </tbody>
+              <app-pagination
+                [currentPage]="page"
+                style="background-color: black"
+              ></app-pagination>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="assets/products/js/jquery.min.js"></script>
+    <script src="assets/products/js/popper.js"></script>
+    <script src="assets/products/js/bootstrap.min.js"></script>
+    <script src="assets/products/js/main.js"></script>
+  </body>
+</html>

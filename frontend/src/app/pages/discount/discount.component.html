@@ -1,0 +1,69 @@
+<div class="container">
+  <input
+    type="text"
+    name="search"
+    [(ngModel)]="searchText"
+    placeholder="Enter Some Text To Search"
+    style="
+      width: 60%;
+      height: 30px;
+      border-radius: 5px;
+      margin: 0;
+      position: absolute;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      font-size: 15px;
+    "
+  />
+</div>
+<mat-card>
+  <br />
+  <p>
+    Coupon Format: (text) '-' (discount Percentage) <br />
+    Ex : "Flying-50" for 50% discount.
+  </p>
+  <br />
+  <h1 align="center" class="display-4">Coupons</h1>
+
+  <input
+    [(ngModel)]="coupon"
+    type="text"
+    class="form-control form-control-lg"
+    id="coupon"
+    name="coupon"
+    placeholder="Enter coupon code"
+    style="border-color: black"
+  />
+  <div class="center">
+    <button (click)="addCoupon(coupon)" align="center" class="btn btn-success">
+      Add Coupon
+    </button>
+  </div>
+  <br /><br />
+  <table id="table" class="table table-striped text-center" style="width: 100%">
+    <thead>
+      <tr>
+        <th scope="col">Couponcode</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <!--Search by 
+    <select ng-model="columns" ng-options="e for e in headers">
+        <option value=""></option>
+    </select>
+    Search <input type = "text" ng-model ="Search[columns]" placeholder ="Enter Some Text To Search" />-->
+    <tbody>
+      <tr *ngFor="let coupon of page?.content | filter: searchText">
+        <td class="align-middle">{{ coupon.id }}</td>
+        <td class="align-middle">
+          <button (click)="deleteCoupon(coupon.id)" class="btn btn-success">
+            Delete
+          </button>
+          <!-- <a  [ngClass]="{'isDisabled':'(productInfo.productStock >10)? true:false'}"style="display: block" class="isDisabled"  routerLink="/email">Email</a>-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</mat-card>
+<app-pagination [currentPage]="page"></app-pagination>
